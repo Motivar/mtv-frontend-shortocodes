@@ -6,6 +6,8 @@
     overflow: scroll;
     white-space: nowrap;
     -ms-overflow-style: none;
+    display: grid;
+    align-items: center;
     /* Internet Explorer 10+ */
     scrollbar-width: none;
     /* Firefox */
@@ -22,7 +24,8 @@
     .item {
         display: inline-block;
         margin: 0px 5px;
-        transition: all 0.3s;
+        transition: all 0.2s;
+        letter-spacing: normal;
         &.active {
             font-weight: bold;
         }

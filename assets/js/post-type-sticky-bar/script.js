@@ -45,16 +45,17 @@ function mtv_sticky_bar_check() {
 
         function scroll(event) {
             var y = document['documentElement' || 'body'].scrollTop - top;
+            var body = document.body;
             if (y > top) {
                 if (!isScrolledIntoView(element, true) && !element.classList.contains('sticked')) {
                     element.classList.add('sticked');
+                    body.classList.add('mtv-sticky-bar-sticked');
                 }
             } else {
                 element.classList.remove('sticked');
+                body.classList.remove('mtv-sticky-bar-sticked');
             }
-
             mtv_attach_items();
-
         }
 
         window.addEventListener('scroll', function() {
@@ -74,29 +75,33 @@ function mtv_sticky_bar_check() {
 
 function mtv_attach_items() {
     var element = document.querySelector('#mtv-sticky-bar.mtv_is_sticky');
-    var items_array = [];
+
     if (element) {
         if (element.classList.contains('sticked')) {
+            var items_array = [];
             var top = document['documentElement' || 'body'].scrollTop;
             var items = element.querySelectorAll('.item');
             for (var i = 0; i < items.length; i++) {
                 var selector = items[i].getAttribute('data-check');
-                var selector_items = document.querySelectorAll(selector);
+                var offset = ~~items[i].getAttribute('data-offset');
+
                 items[i].classList.remove('active');
+                var selector_items = document.querySelectorAll(selector);
                 for (var k = 0; k < selector_items.length; k++) {
                     var item = selector_items[k];
-                    var item_top = item.offsetTop;
+                    var item_top = ~~(item.offsetTop + offset);
                     if (top >= item_top && isScrolledIntoView(item, false)) {
-                        items_array.push({ dist: top - item_top, item: items[i] });
+                        items_array.push({ dist: ~~(top - item_top), item: items[i] });
                     }
                 }
             }
-        }
-        if (items_array.length > 0) {
-            items_array.sort(compare_distances);
-            items_array[0].item.classList.add('active');
-            items_array[0].item.scrollIntoView({ inline: 'center' });
 
+            if (items_array.length > 0) {
+                items_array.sort(compare_distances);
+                items_array[0].item.classList.add('active');
+                items_array[0].item.scrollIntoView({ inline: 'center' });
+
+            }
         }
     }
 }
@@ -129,7 +134,6 @@ function isScrolledIntoView(el, allElement) {
 
 
 function scrollHrzntl(action, targetElement) {
-    console.log(action);
     var element = document.querySelector('#mtv-sticky-bar.mtv_is_sticky');
     if (element) {
         var distance = -100;

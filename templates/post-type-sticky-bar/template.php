@@ -11,7 +11,7 @@ $items = count($mtv_option['navigations'])
     <div class="nav_wrapper">
       <?php
       foreach ($mtv_option['navigations'] as $navigation) {
-      ?><div class="item" data-check="<?php echo $navigation['element']; ?>" data-top="<?php echo $navigation['top_offset']; ?>">
+      ?><div class="item" data-check="<?php echo $navigation['element']; ?>" data-offset="<?php echo $navigation['top_offset']; ?>">
           <div onclick=" mtv_scroll_to('<?php echo $navigation['element']; ?>','<?php echo $navigation['top_offset']; ?>')"><?php echo __($navigation['label'], mtv_fr_sh_textdomain); ?></div>
         </div><?php
             } ?>
