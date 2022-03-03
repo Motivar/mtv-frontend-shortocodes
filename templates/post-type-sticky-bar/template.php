@@ -7,9 +7,8 @@ $items = count($mtv_option['navigations'])
 ?>
 <div id="mtv-sticky-bar" class="<?php echo $mtv_option['disable_sticky'] ? '' : 'mtv_is_sticky'; ?>">
   <div class="mtv-sticky-wrapper">
-    <div class="mtv-left-trigger" onclick="scrollHrzntl('left');"><span class="mtv-arrow left"></span></div>
+    <!--<div class="mtv-left-trigger" onclick="scrollHrzntl('left');"><span class="mtv-arrow left"></span></div>-->
     <div class="nav_wrapper">
-
       <?php
       foreach ($mtv_option['navigations'] as $navigation) {
       ?><div class="item" data-check="<?php echo $navigation['element']; ?>" data-top="<?php echo $navigation['top_offset']; ?>">

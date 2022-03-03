@@ -11,8 +11,9 @@ if (document.readyState == 'complete' || document.readyState == 'loaded') {
  */
 
 function mtv_scroll_to(element_selector, top) {
-    var element = document.querySelector(element_selector);
-    if (element) {
+    var elements = document.querySelectorAll(element_selector);
+    if (elements.length > 0) {
+        var element = elements[0];
         var opos, otop;
         opos = otop = '';
         if (top != 0 && top != '') {
@@ -70,24 +71,43 @@ function mtv_sticky_bar_check() {
     }
 }
 
+
 function mtv_attach_items() {
     var element = document.querySelector('#mtv-sticky-bar.mtv_is_sticky');
+    var items_array = [];
     if (element) {
         if (element.classList.contains('sticked')) {
             var top = document['documentElement' || 'body'].scrollTop;
             var items = element.querySelectorAll('.item');
             for (var i = 0; i < items.length; i++) {
                 var selector = items[i].getAttribute('data-check');
-                var item = document.querySelector(selector);
-                var item_top = item.offsetTop;
-                if (top >= item_top && isScrolledIntoView(item, false)) {
-                    items[i].classList.add('active');
-                } else {
-                    items[i].classList.remove('active');
+                var selector_items = document.querySelectorAll(selector);
+                items[i].classList.remove('active');
+                for (var k = 0; k < selector_items.length; k++) {
+                    var item = selector_items[k];
+                    var item_top = item.offsetTop;
+                    if (top >= item_top && isScrolledIntoView(item, false)) {
+                        items_array.push({ dist: top - item_top, item: items[i] });
+                    }
                 }
             }
         }
+        if (items_array.length > 0) {
+            items_array.sort(compare_distances);
+            items_array[0].item.classList.add('active');
+            items_array[0].item.scrollIntoView({ inline: 'center' });
 
+        }
+    }
+}
+
+
+
+function compare_distances(a, b) {
+    if (a.dist === b.dist) {
+        return 0;
+    } else {
+        return (a.dist < b.dist) ? -1 : 1;
     }
 }
 
@@ -108,7 +128,7 @@ function isScrolledIntoView(el, allElement) {
 
 
 
-function scrollHrzntl(action) {
+function scrollHrzntl(action, targetElement) {
     console.log(action);
     var element = document.querySelector('#mtv-sticky-bar.mtv_is_sticky');
     if (element) {
@@ -116,6 +136,7 @@ function scrollHrzntl(action) {
         if (action == 'right') {
             distance = 100;
         }
+
 
 
         element.scrollBy({
