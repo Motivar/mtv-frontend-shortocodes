@@ -12,6 +12,7 @@ if (document.readyState == 'complete' || document.readyState == 'loaded') {
 
 function mtv_scroll_to(element_selector, top) {
     var elements = document.querySelectorAll(element_selector);
+
     if (elements.length > 0) {
         var element = elements[0];
         var opos, otop;
@@ -22,13 +23,14 @@ function mtv_scroll_to(element_selector, top) {
             element.style.position = 'relative';
             element.style.top = top + 'px';
         }
-        element.scrollIntoView({ behavior: "smooth", inline: "nearest", block: 'start' });
+        window.scroll({ top: mtv_getOffsetTop(element), behavior: 'smooth' });
         if (top != 0 && top != '') {
             element.style.top = otop;
             element.style.position = opos;
         }
         return;
     }
+    console.log(element_selector + ' don\'t exist');
 }
 
 
@@ -160,4 +162,13 @@ function mtv_sticky_bar_width() {
     }
     document.querySelector('#mtv-sticky-bar').classList.remove('show-icons');
 
+}
+
+const mtv_getOffsetTop = element => {
+    let offsetTop = 0;
+    while (element) {
+        offsetTop += element.offsetTop;
+        element = element.offsetParent;
+    }
+    return offsetTop;
 }

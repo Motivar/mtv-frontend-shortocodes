@@ -11,7 +11,7 @@ class MTV_Sticky_Post_Type_Bar
 
   public function __construct()
   {
-    $this->mtv_sticky_version = 0.13;
+    $this->mtv_sticky_version = 0.2;
     $options = get_option('mtv_frontend_shorts') ?: array();
     $this->mtv_sticky_options = isset($options['mtv_sticky_bar']['positions']) ? $options['mtv_sticky_bar']['positions'] : array();
     add_action('mtv_frontend_shorts_filter', array($this, 'set_settings'));
