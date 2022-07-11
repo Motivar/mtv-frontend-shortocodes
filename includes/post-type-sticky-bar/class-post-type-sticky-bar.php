@@ -23,16 +23,19 @@ class MTV_Sticky_Post_Type_Bar
   {
     $options = $this->get_active_status();
     $original_content = $content;
-    switch ($options['placement']) {
-      case 'before':
-        $content = do_shortcode('[mtv_sticky_bar]') . $original_content;
-        break;
-      case 'after':
-        $content .= do_shortcode('[mtv_sticky_bar]');
-        break;
-      default:
-        break;
+    if (isset($options['placement']) && !empty($options['placement'])) {
+      switch ($options['placement']) {
+        case 'before':
+          $content = do_shortcode('[mtv_sticky_bar]') . $original_content;
+          break;
+        case 'after':
+          $content .= do_shortcode('[mtv_sticky_bar]');
+          break;
+        default:
+          break;
+      }
     }
+
     return $content;
   }
 

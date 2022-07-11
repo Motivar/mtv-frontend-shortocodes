@@ -143,8 +143,6 @@ function scrollHrzntl(action, targetElement) {
             distance = 100;
         }
 
-
-
         element.scrollBy({
             left: distance,
             behavior: 'smooth'
